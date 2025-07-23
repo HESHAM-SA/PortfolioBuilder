@@ -1,0 +1,30 @@
+{% extends "portfolios/base.html" %}
+
+{% block content %}
+<div class="card p-4 p-md-5 shadow-sm">
+    <div class="text-center mb-4">
+        <h1 class="h2">🚀 Create Your Portfolio Instantly</h1>
+        <p class="lead text-muted">No signup required. Just enter your name and title to begin.</p>
+    </div>
+    
+    <form method="POST">
+        {% csrf_token %}
+        
+        <div class="mb-3">
+            <label for="id_full_name" class="form-label fw-bold">👤 Your Full Name</label>
+            <input type="text" name="full_name" id="id_full_name" class="form-control form-control-lg" required placeholder="e.g., Jane Doe">
+        </div>
+        
+        <div class="mb-4">
+            <label for="id_title" class="form-label fw-bold">💼 Professional Title</label>
+            <input type="text" name="title" id="id_title" class="form-control form-control-lg" required placeholder="e.g., Senior Software Developer">
+        </div>
+        
+        <div class="d-grid">
+            <button type="submit" class="btn btn-primary btn-lg p-3">
+                Create My Portfolio
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}

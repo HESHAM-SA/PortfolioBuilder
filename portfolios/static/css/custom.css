@@ -1,0 +1,132 @@
+/* static/css/custom.css */
+
+body {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+}
+
+
+/* static/css/custom.css */
+
+/* ... your existing body style is here ... */
+/* static/css/custom.css */
+
+/* --- Centered Vertical Timeline Styles --- */
+
+/* The main container that enables the Grid layout */
+.timeline-container-centered {
+    display: grid;
+    /* A 3-column grid: left content, the line, right content */
+    grid-template-columns: 1fr 3px 1fr;
+    gap: 20px;
+}
+
+/* The vertical line in the middle */
+.timeline-container-centered::before {
+    content: '';
+    grid-column: 2; /* Place the line in the second grid column */
+    width: 3px;
+    background-color: #dee2e6;
+    border-radius: 3px;
+}
+
+/* A container for each year's block (dot + content) */
+.timeline-block {
+    /* Make each block a grid item that spans all 3 columns */
+    grid-column: 1 / 4;
+    display: grid;
+    grid-template-columns: 1fr 3px 1fr;
+    gap: 20px;
+    position: relative;
+    margin-bottom: 2rem;
+}
+
+/* The clickable dot on the timeline */
+.timeline-dot {
+    grid-column: 2; /* Place the dot in the middle column */
+    width: 21px;
+    height: 21px;
+    background-color: #fff;
+    border: 3px solid #667eea;
+    border-radius: 50%;
+    margin-top: 15px; /* Align with button text */
+    z-index: 1; /* Appear on top of the line */
+}
+
+/* The content bubble for an event year */
+.timeline-content {
+    position: relative;
+    border-radius: .5rem;
+    background-color: #fff;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+/* --- Alternating Logic --- */
+
+/* Place content for ODD numbered items on the RIGHT */
+.timeline-block-right .timeline-content {
+    grid-column: 3;
+}
+
+/* Place content for EVEN numbered items on the LEFT */
+.timeline-block-left .timeline-content {
+    grid-column: 1;
+}
+
+/* The little triangle pointer using a pseudo-element */
+.timeline-content::before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    top: 20px;
+}
+
+/* Pointer for RIGHT-side content (points left) */
+.timeline-block-right .timeline-content::before {
+    right: 100%;
+    border-width: 8px 10px 8px 0;
+    border-color: transparent #fff transparent transparent;
+}
+
+/* Pointer for LEFT-side content (points right) */
+.timeline-block-left .timeline-content::before {
+    left: 100%;
+    border-width: 8px 0 8px 10px;
+    border-color: transparent transparent transparent #fff;
+}
+
+
+/* --- Responsive Design for Mobile --- */
+@media (max-width: 768px) {
+    /* Change to a 2-column layout for mobile */
+    .timeline-container-centered {
+        grid-template-columns: 50px 1fr;
+        gap: 10px;
+    }
+
+    /* Move the line and dot to the first column */
+    .timeline-container-centered::before,
+    .timeline-block {
+        grid-template-columns: 50px 1fr;
+    }
+    .timeline-dot {
+        grid-column: 1;
+        justify-self: center; /* Center the dot in its column */
+    }
+
+    /* Force ALL content blocks to the right side (second column) */
+    .timeline-block-right .timeline-content,
+    .timeline-block-left .timeline-content {
+        grid-column: 2;
+    }
+    
+    /* Make all pointers point left */
+    .timeline-block-left .timeline-content::before {
+        right: 100%;
+        left: auto;
+        border-width: 8px 10px 8px 0;
+        border-color: transparent #fff transparent transparent;
+    }
+}

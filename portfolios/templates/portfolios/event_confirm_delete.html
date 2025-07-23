@@ -1,0 +1,17 @@
+{% extends "portfolios/base.html" %}
+
+{% block content %}
+<div class="card p-4 shadow-sm text-center">
+    <h1 class="mb-3">Confirm Deletion</h1>
+    <p class="lead">Are you sure you want to delete the event: <strong>"{{ event.title }}"</strong>?</p>
+    <p>This action cannot be undone.</p>
+    
+    <form method="POST">
+        {% csrf_token %}
+        <div class="mt-4">
+            <a href="{% url 'dashboard' slug=portfolio.slug %}" class="btn btn-secondary btn-lg">Cancel</a>
+            <button type="submit" class="btn btn-danger btn-lg">Yes, Delete It</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends "portfolios/base.html" %}
+
+{% block content %}
+<div class="card p-4 p-md-5 shadow-sm">
+    {% if is_editing %}
+        <h2 class="mb-4">✏️ Edit Timeline Event</h2>
+    {% else %}
+        <h2 class="mb-4">📅 Add a New Timeline Event</h2>
+    {% endif %}    
+    <form method="POST" novalidate>
+        {% csrf_token %}
+        
+        <!-- Render each field with Bootstrap classes -->
+        {% for field in form %}
+            <div class="mb-3">
+                {{ field.label_tag }}
+                {{ field }}
+                {% if field.help_text %}
+                    <div class="form-text">{{ field.help_text }}</div>
+                {% endif %}
+                {% if field.errors %}
+                    <div class="invalid-feedback d-block">
+                        {{ field.errors.as_text }}
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+        
+        <div class="d-flex justify-content-end mt-4">
+            <a href="{% url 'dashboard' slug=portfolio.slug %}" class="btn btn-secondary me-2">Cancel</a>
+            <button type="submit" class="btn btn-primary">Save Event</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,101 @@
+{% extends "portfolios/base.html" %}
+
+{% block content %}
+<div class="card p-4 p-md-5 shadow-sm">
+    
+    <div class="alert alert-success" role="alert">
+      <h4 class="alert-heading">🎉 Portfolio Created Successfully!</h4>
+      <p>This is your private dashboard. You can manage your profile and timeline events from here.</p>
+      <hr>
+      <p class="mb-0"><strong>💡 Important:</strong> Bookmark this page! This is the only way to get back to editing your portfolio.</p>
+    </div>
+
+    <div class="row mt-4 gy-4">
+        <!-- Inside dashboard.html -->
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">🔗 Share Your Portfolio</h5>
+                <p class="card-text">Here is your unique, public link:</p>
+                <div class="input-group">
+                    <!-- CHANGE THIS: Use the full URL -->
+                    <input type="text" class="form-control" value="{{ request.scheme }}://{{ request.get_host }}{% url 'public_portfolio' slug=portfolio.slug %}" readonly>
+                    <button class="btn btn-outline-secondary">Copy</button>
+                </div>
+                <!-- CHANGE THIS: Link to the public portfolio -->
+                <a href="{% url 'public_portfolio' slug=portfolio.slug %}" class="btn btn-primary mt-3" target="_blank">View Public Page</a>
+            </div>
+        </div>
+        
+        <!-- Profile Card -->
+        <div class="col-md-6">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">👤 Your Profile</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">{{ portfolio.full_name }}</h6>
+                    <p class="card-text">{{ portfolio.title }}</p>
+                    <a href="{% url 'edit_portfolio' slug=portfolio.slug %}" class="btn btn-secondary">Edit Profile</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <hr class="my-5">
+    
+       <!-- Interactive Timeline Section -->
+    <div class="mt-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="mb-0">📅 Timeline Events</h2>
+            <a href="{% url 'add_event' slug=portfolio.slug %}" class="btn btn-primary">+ Add New Event</a>
+        </div>
+
+        {% if grouped_events %}
+            <div class="accordion timeline" id="timelineAccordion">
+                {% for year, events_in_year in grouped_events.items %}
+                <div class="accordion-item timeline-item">
+                    <h2 class="accordion-header" id="heading-{{ year }}">
+                        <button class="accordion-button {% if not forloop.first %}collapsed{% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-{{ year }}" aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}" aria-controls="collapse-{{ year }}">
+                            <strong>{{ year }}</strong>
+                        </button>
+                    </h2>
+                    <div id="collapse-{{ year }}" class="accordion-collapse collapse {% if forloop.first %}show{% endif %}" aria-labelledby="heading-{{ year }}" data-bs-parent="#timelineAccordion">
+                        <div class="accordion-body">
+                            {% for event in events_in_year %}
+                                <div class="mb-4">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h5 class="mb-1">{{ event.title }}</h5>
+                                        <div>
+                                            <a href="{% url 'edit_event' slug=portfolio.slug event_id=event.id %}" class="btn btn-sm btn-secondary">Edit</a>
+                                            <a href="{% url 'delete_event' slug=portfolio.slug event_id=event.id %}" class="btn btn-sm btn-danger">Delete</a>
+                                        </div>
+                                    </div>
+                                    <p class="mb-1 text-muted">
+                                        <strong>{{ event.company }}</strong> | <span class="badge bg-info text-dark">{{ event.get_event_type_display }}</span>
+                                    </p>
+                                    <small class="text-muted">
+                                        {{ event.start_date|date:"F Y" }} – 
+                                        {% if event.end_date %}{{ event.end_date|date:"F Y" }}{% else %}Present{% endif %}
+                                    </small>
+                                    {% if event.description %}
+                                        <p class="mt-2 mb-0">{{ event.description|linebreaksbr }}</p>
+                                    {% endif %}
+                                </div>
+                                {% if not forloop.last %}<hr>{% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <!-- This part remains the same: for when there are no events -->
+            <div class="card my-4 text-center">
+                <div class="card-body p-5">
+                    <p class="lead">No events yet.</p>
+                    <a href="{% url 'add_event' slug=portfolio.slug %}" class="btn btn-lg btn-success">+ Add First Event</a>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+    
+</div>
+{% endblock %}
