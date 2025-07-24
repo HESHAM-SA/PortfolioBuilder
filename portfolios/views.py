@@ -85,7 +85,7 @@ def add_timeline_event(request, slug):
         raise PermissionDenied("You cannot add events to this portfolio.")
 
     if request.method == 'POST':
-        form = TimelineEventForm(request.POST)
+        form = TimelineEventForm(request.POST, request.FILES)
         if form.is_valid():
             # Create the event object but don't save to the database yet
             event = form.save(commit=False)
@@ -105,24 +105,48 @@ def add_timeline_event(request, slug):
     }
     return render(request, 'portfolios/event_form.html', context)
 
+# portfolios/views.py
+from collections import defaultdict
+from datetime import date # Make sure this is imported
+
+# ... other imports ...
 
 def public_portfolio_view(request, slug):
-    # This view is for the public, so no permission checks are needed.
     portfolio = get_object_or_404(Portfolio, slug=slug)
     
-    # We use the exact same grouping logic as the dashboard.
     events_queryset = portfolio.events.all().order_by('-start_date')
-    grouped_events = defaultdict(list)
-    for event in events_queryset:
-        grouped_events[event.start_date.year].append(event)
     
-    grouped_events_sorted = dict(sorted(grouped_events.items(), reverse=True))
+    # --- NEW, IMPROVED GROUPING LOGIC ---
+    grouped_events = defaultdict(list)
+    
+    # Find the min and max years from all events
+    first_year = None
+    last_year = date.today().year # Default to the current year
 
+    if events_queryset.exists():
+        for event in events_queryset:
+            # Group by END year. If no end date, use today's year.
+            year_to_group_by = event.end_date.year if event.end_date else date.today().year
+            grouped_events[year_to_group_by].append(event)
+            
+            # Track the overall date range of the timeline
+            if first_year is None or event.start_date.year < first_year:
+                first_year = event.start_date.year
+            if event.end_date and event.end_date.year > last_year:
+                last_year = event.end_date.year
+    
+    # --- NEW: Create a complete list of all years to display ---
+    all_years_to_display = []
+    if first_year:
+        # Generate a list of all years from last to first (e.g., [2024, 2023, 2022])
+        all_years_to_display = list(range(last_year, first_year - 1, -1))
+
+    # --- Pass both the events and the full year list to the template ---
     context = {
         'portfolio': portfolio,
-        'grouped_events': grouped_events_sorted,
+        'grouped_events': grouped_events,
+        'all_years': all_years_to_display,
     }
-    # Render a NEW template for the public page.
     return render(request, 'portfolios/public_portfolio.html', context)
 
 

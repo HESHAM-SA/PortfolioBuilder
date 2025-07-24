@@ -7,7 +7,7 @@
     {% else %}
         <h2 class="mb-4">📅 Add a New Timeline Event</h2>
     {% endif %}    
-    <form method="POST" novalidate>
+    <form method="POST" enctype="multipart/form-data" novalidate>
         {% csrf_token %}
         
         <!-- Render each field with Bootstrap classes -->

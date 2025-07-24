@@ -5,12 +5,6 @@ body {
     min-height: 100vh;
 }
 
-
-/* static/css/custom.css */
-
-/* ... your existing body style is here ... */
-/* static/css/custom.css */
-
 /* --- Centered Vertical Timeline Styles --- */
 
 /* The main container that enables the Grid layout */
@@ -38,7 +32,8 @@ body {
     grid-template-columns: 1fr 3px 1fr;
     gap: 20px;
     position: relative;
-    margin-bottom: 2rem;
+    /* FIX: Add consistent margin for even spacing */
+    margin-bottom: 4rem;
 }
 
 /* The clickable dot on the timeline */
@@ -49,7 +44,10 @@ body {
     background-color: #fff;
     border: 3px solid #667eea;
     border-radius: 50%;
-    margin-top: 15px; /* Align with button text */
+    /* FIX: Remove margin-top and use absolute positioning for consistent placement */
+    position: absolute;
+    top: 20px;
+    transform: translateX(-50%);
     z-index: 1; /* Appear on top of the line */
 }
 
@@ -59,6 +57,8 @@ body {
     border-radius: .5rem;
     background-color: #fff;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    /* FIX: Add minimum height to normalize block sizes */
+    min-height: 80px;
 }
 
 /* --- Alternating Logic --- */
@@ -97,7 +97,6 @@ body {
     border-color: transparent transparent transparent #fff;
 }
 
-
 /* --- Responsive Design for Mobile --- */
 @media (max-width: 768px) {
     /* Change to a 2-column layout for mobile */
@@ -111,9 +110,14 @@ body {
     .timeline-block {
         grid-template-columns: 50px 1fr;
     }
+    
     .timeline-dot {
         grid-column: 1;
+        position: relative;
+        left: auto;
+        transform: none;
         justify-self: center; /* Center the dot in its column */
+        top: 20px;
     }
 
     /* Force ALL content blocks to the right side (second column) */
