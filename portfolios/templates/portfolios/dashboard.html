@@ -11,17 +11,14 @@
     </div>
 
     <div class="row mt-4 gy-4">
-        <!-- Inside dashboard.html -->
         <div class="card h-100">
             <div class="card-body">
                 <h5 class="card-title">🔗 Share Your Portfolio</h5>
                 <p class="card-text">Here is your unique, public link:</p>
                 <div class="input-group">
-                    <!-- CHANGE THIS: Use the full URL -->
                     <input type="text" class="form-control" value="{{ request.scheme }}://{{ request.get_host }}{% url 'public_portfolio' slug=portfolio.slug %}" readonly>
                     <button class="btn btn-outline-secondary">Copy</button>
                 </div>
-                <!-- CHANGE THIS: Link to the public portfolio -->
                 <a href="{% url 'public_portfolio' slug=portfolio.slug %}" class="btn btn-primary mt-3" target="_blank">View Public Page</a>
             </div>
         </div>

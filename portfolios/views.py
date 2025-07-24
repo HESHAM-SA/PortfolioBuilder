@@ -1,9 +1,9 @@
 # portfolios/views.py
 
 from django.shortcuts import render, redirect, get_object_or_404
-from django.core.exceptions import PermissionDenied # Import this
+from django.core.exceptions import PermissionDenied
 from .models import Portfolio
-from .forms import TimelineEventForm # <-- Import the new form
+from .forms import TimelineEventForm 
 from collections import defaultdict
 from .models import Portfolio, TimelineEvent
 

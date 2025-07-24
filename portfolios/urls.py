@@ -5,10 +5,8 @@ from . import views
 
 urlpatterns = [
     path('', views.landing_page, name='landing'),
-    # --- Add these two new lines ---
     path('about/', views.about_page, name='about'),
     path('contact/', views.contact_page, name='contact'),
-    
     path('portfolio/<slug:slug>/', views.public_portfolio_view, name='public_portfolio'),
     path('portfolio/<slug:slug>/edit/', views.dashboard, name='dashboard'),
     path('portfolio/<slug:slug>/events/add/', views.add_timeline_event, name='add_event'),
