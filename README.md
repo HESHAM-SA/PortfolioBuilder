@@ -97,19 +97,19 @@ These documents outline the intended user flow and interactions within the syste
 Here are the visual blueprints for the key pages in the application.
 
 #### 1. Landing Page
-*   ![alt text](/assets/images/image.png)
+*   ![landing page](/assets/images/wireframe-landing.png)
 
 #### 2. Portfolio Dashboard
-*   `![Dashboard Wireframe](path/to/your/wireframe-dashboard.png)`
+*   ![Dashboard Wireframe](/assets/images/wireframe-dashboard.png)
 
 #### 3. Add/Edit Event Page
-*   `![Add/Edit Event Wireframe](path/to/your/wireframe-event-form.png)`
+*   ![Add/Edit Event Wireframe](/assets/images/wireframe-event-form.png)
 
 #### 4. Edit Profile Page
-*   `![Edit Profile Wireframe](path/to/your/wireframe-profile-form.png)`
+*   ![Edit Profile Wireframe](/assets/images/wireframe-profile-form.png)
 
 #### 5. Public Portfolio Page
-*   `![Public Portfolio Wireframe](path/to/your/wireframe-public-portfolio.png)`
+*   ![Public Portfolio Wireframe](/assets/images/wireframe-public-portfolio.png)
 
 ---
 
