@@ -97,7 +97,7 @@ These documents outline the intended user flow and interactions within the syste
 Here are the visual blueprints for the key pages in the application.
 
 #### 1. Landing Page
-*   `![Landing Page Wireframe](path/to/your/wireframe-landing.png)`
+*   ![alt text](/assets/images/image.png)
 
 #### 2. Portfolio Dashboard
 *   `![Dashboard Wireframe](path/to/your/wireframe-dashboard.png)`
