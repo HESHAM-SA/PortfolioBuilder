@@ -83,17 +83,17 @@ This diagram shows the relationship between the `Portfolio` and `TimelineEvent` 
 
 *   **[View UML Class Diagram (PDF)](/assets/pdfs/UML%20Digram.pdf)**
     *(Note: For a direct view, convert the PDF to a PNG or JPG and use the image tag below.)*
-*   `![UML Class Diagram](/assets/images/UML%20Digram-1.jpg)`
+*   ![UML Class Diagram](/assets/images/UML%20Digram-1.jpg)
 
 ### User Story & Sequence Diagrams
 
 These documents outline the intended user flow and interactions within the system.
 
 1.  **[View User Story Flow (PDF)](/assets/pdfs/1.%20Sequence%20Diagram%20Create%20a%20New%20Portfolio.pdf)**
-*   `![View User Story Flow](/assets/images/1.%20Sequence%20Diagram%20Create%20a%20New%20Portfolio-1.jpg)`
+*   ![View User Story Flow](/assets/images/1.%20Sequence%20Diagram%20Create%20a%20New%20Portfolio-1.jpg)
 
 2.  **[View Sequence Diagram (PDF)](/assets/pdfs/2.%20Sequence%20Diagram%20Add%20a%20Timeline%20Event%20with%20an%20Image.pdf)**
-*   `![View Sequence Diagram](/assets/images/2.%20Sequence%20Diagram%20Add%20a%20Timeline%20Event%20with%20an%20Image-1.jpg)`
+*   ![View Sequence Diagram](/assets/images/2.%20Sequence%20Diagram%20Add%20a%20Timeline%20Event%20with%20an%20Image-1.jpg)
 
 
 ### Page Wireframes
