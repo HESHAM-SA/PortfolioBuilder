@@ -9,7 +9,7 @@
     <form method="POST">
         {% csrf_token %}
         <div class="mt-4">
-            <a href="{% url 'dashboard' slug=portfolio.slug %}" class="btn btn-secondary btn-lg">Cancel</a>
+            <a href="{% url 'portfolios:dashboard' slug=portfolio.slug %}" class="btn btn-secondary btn-lg">Cancel</a>
             <button type="submit" class="btn btn-danger btn-lg">Yes, Delete It</button>
         </div>
     </form>

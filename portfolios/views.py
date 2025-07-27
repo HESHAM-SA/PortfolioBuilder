@@ -35,7 +35,7 @@ def landing_page(request):
 
         # Redirect the user to the dashboard page for their new portfolio.
         # We will create this 'dashboard' URL in the next step.
-        return redirect('dashboard', slug=portfolio.slug)
+        return redirect('portfolios:dashboard', slug=portfolio.slug)
 
     # This runs when the user first visits the page (a GET request).
     # We just show them the empty form.
@@ -94,7 +94,7 @@ def add_timeline_event(request, slug):
             # Now save it to the database
             event.save()
             # Redirect back to the dashboard
-            return redirect('dashboard', slug=portfolio.slug)
+            return redirect('portfolios:dashboard', slug=portfolio.slug)
     else:
         # If it's a GET request, just create an empty form
         form = TimelineEventForm()
@@ -177,7 +177,7 @@ def edit_portfolio(request, slug):
         form = PortfolioEditForm(request.POST, request.FILES, instance=portfolio)
         if form.is_valid():
             form.save()
-            return redirect('dashboard', slug=portfolio.slug)
+            return redirect('portfolios:dashboard', slug=portfolio.slug)
     else:
         form = PortfolioEditForm(instance=portfolio)
 
@@ -203,7 +203,7 @@ def edit_timeline_event(request, slug, event_id):
         form = TimelineEventForm(request.POST, request.FILES, instance=event)
         if form.is_valid():
             form.save()
-            return redirect('dashboard', slug=portfolio.slug)
+            return redirect('portfolios:dashboard', slug=portfolio.slug)
     else:
         # Pre-populate the form with the event's current data.
         form = TimelineEventForm(instance=event)
@@ -227,7 +227,7 @@ def delete_timeline_event(request, slug, event_id):
     if request.method == 'POST':
         # If the form is submitted, delete the event and redirect.
         event.delete()
-        return redirect('dashboard', slug=portfolio.slug)
+        return redirect('portfolios:dashboard', slug=portfolio.slug)
     
     # If it's a GET request, show the confirmation page.
     context = {

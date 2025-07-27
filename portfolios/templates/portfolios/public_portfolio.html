@@ -1,5 +1,27 @@
 {% extends "portfolios/base.html" %}
 {% load portfolio_tags %}
+{% block head_extra %}
+    {% if portfolio.profile_image %}
+        <style>
+            body {
+                /* Set the background image to the portfolio's profile image URL */
+                background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url("{{ portfolio.profile_image.url }}");
+                
+                /* Ensure the image covers the entire background */
+                background-size: cover;
+                
+                /* Center the image */
+                background-position: center center;
+                
+                /* Fix the image in place so content scrolls over it */
+                background-attachment: fixed;
+                
+                /* Prevent the image from repeating */
+                background-repeat: no-repeat;
+            }
+        </style>
+    {% endif %}
+{% endblock %}
 
 {% block content %}
 <div class="card p-4 p-md-5 shadow-sm mb-5">
@@ -14,7 +36,7 @@
             {% if portfolio.email %}<a href="mailto:{{ portfolio.email }}" class="btn btn-outline-primary">📧 Email Me</a>{% endif %}
             {% if portfolio.linkedin_url %}<a href="{{ portfolio.linkedin_url }}" target="_blank" class="btn btn-outline-primary">🔗 LinkedIn</a>{% endif %}
         </div>
-        <a href="{% url 'landing' %}" class="btn btn-sm btn-success">✨ Create Your Own Portfolio</a>
+        <a href="{% url 'portfolios:landing' %}" class="btn btn-sm btn-success">✨ Create Your Own Portfolio</a>
     </div>
 </div>
 

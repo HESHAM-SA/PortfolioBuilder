@@ -15,7 +15,7 @@
             </div>
         {% endfor %}
         <div class="d-flex justify-content-end mt-4">
-            <a href="{% url 'dashboard' slug=portfolio.slug %}" class="btn btn-secondary me-2">Cancel</a>
+            <a href="{% url 'portfolios:dashboard' slug=portfolio.slug %}" class="btn btn-secondary me-2">Cancel</a>
             <button type="submit" class="btn btn-primary">Save Changes</button>
         </div>
     </form>

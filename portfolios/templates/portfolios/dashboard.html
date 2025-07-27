@@ -16,10 +16,10 @@
                 <h5 class="card-title">🔗 Share Your Portfolio</h5>
                 <p class="card-text">Here is your unique, public link:</p>
                 <div class="input-group">
-                    <input type="text" class="form-control" value="{{ request.scheme }}://{{ request.get_host }}{% url 'public_portfolio' slug=portfolio.slug %}" readonly>
+                    <input type="text" class="form-control" value="{{ request.scheme }}://{{ request.get_host }}{% url 'portfolios:public_portfolio' slug=portfolio.slug %}" readonly>
                     <button class="btn btn-outline-secondary">Copy</button>
                 </div>
-                <a href="{% url 'public_portfolio' slug=portfolio.slug %}" class="btn btn-primary mt-3" target="_blank">View Public Page</a>
+                <a href="{% url 'portfolios:public_portfolio' slug=portfolio.slug %}" class="btn btn-primary mt-3" target="_blank">View Public Page</a>
             </div>
         </div>
         
@@ -30,7 +30,7 @@
                     <h5 class="card-title">👤 Your Profile</h5>
                     <h6 class="card-subtitle mb-2 text-muted">{{ portfolio.full_name }}</h6>
                     <p class="card-text">{{ portfolio.title }}</p>
-                    <a href="{% url 'edit_portfolio' slug=portfolio.slug %}" class="btn btn-secondary">Edit Profile</a>
+                    <a href="{% url 'portfolios:edit_portfolio' slug=portfolio.slug %}" class="btn btn-secondary">Edit Profile</a>
                 </div>
             </div>
         </div>
@@ -42,7 +42,7 @@
     <div class="mt-5">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2 class="mb-0">📅 Timeline Events</h2>
-            <a href="{% url 'add_event' slug=portfolio.slug %}" class="btn btn-primary">+ Add New Event</a>
+            <a href="{% url 'portfolios:add_event' slug=portfolio.slug %}" class="btn btn-primary">+ Add New Event</a>
         </div>
 
         {% if grouped_events %}
@@ -61,8 +61,8 @@
                                     <div class="d-flex w-100 justify-content-between">
                                         <h5 class="mb-1">{{ event.title }}</h5>
                                         <div>
-                                            <a href="{% url 'edit_event' slug=portfolio.slug event_id=event.id %}" class="btn btn-sm btn-secondary">Edit</a>
-                                            <a href="{% url 'delete_event' slug=portfolio.slug event_id=event.id %}" class="btn btn-sm btn-danger">Delete</a>
+                                            <a href="{% url 'portfolios:edit_event' slug=portfolio.slug event_id=event.id %}" class="btn btn-sm btn-secondary">Edit</a>
+                                            <a href="{% url 'portfolios:delete_event' slug=portfolio.slug event_id=event.id %}" class="btn btn-sm btn-danger">Delete</a>
                                         </div>
                                     </div>
                                     <p class="mb-1 text-muted">
@@ -88,7 +88,7 @@
             <div class="card my-4 text-center">
                 <div class="card-body p-5">
                     <p class="lead">No events yet.</p>
-                    <a href="{% url 'add_event' slug=portfolio.slug %}" class="btn btn-lg btn-success">+ Add First Event</a>
+                    <a href="{% url 'portfolios:add_event' slug=portfolio.slug %}" class="btn btn-lg btn-success">+ Add First Event</a>
                 </div>
             </div>
         {% endif %}

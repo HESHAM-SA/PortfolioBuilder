@@ -7,7 +7,7 @@
         <p class="lead text-muted">No signup required. Just enter your name and title to begin.</p>
     </div>
     
-    <form method="POST">
+    <form action="{% url 'portfolios:landing' %}" method="POST">
         {% csrf_token %}
         
         <div class="mb-3">
