@@ -39,7 +39,6 @@
         <a href="{% url 'portfolios:landing' %}" class="btn btn-sm btn-success">✨ Create Your Own Portfolio</a>
     </div>
 </div>
-
 <!-- Interactive Timeline Section -->
 <div class="mt-5">
     <h2 class="text-center text-white mb-5">Career Timeline</h2>
@@ -47,102 +46,73 @@
     {% if all_years %}
         <div class="timeline-container-centered">
             
-            <!-- NEW LOOP: Loop through the complete list of years provided by the view -->
+            <!-- Loop through the complete list of years -->
             {% for year in all_years %}
                 
-                <!-- NEW LOGIC: Look up the events for this year using our custom filter -->
+                <!-- Look up the events for this year -->
                 {% with events_in_year=grouped_events|get_item:year %}
 
-                    <!-- This block determines if the timeline entry is on the left or right -->
-                    {% if forloop.counter|divisibleby:2 %}
-                        <!-- BLOCK FOR EVEN-NUMBERED ITEMS (LEFT SIDE) -->
-                        <div class="timeline-block timeline-block-left">
-                            <div class="timeline-dot"></div>
-                            <div class="timeline-content">
-                                <div class="card border-0">
-                                    <div class="card-header bg-transparent border-0 p-3">
-                                        <button class="btn btn-link text-decoration-none w-100 text-start fs-5 fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-year-{{ year }}" {% if not events_in_year %}disabled{% endif %}>
-                                            {{ year }}
-                                        </button>
-                                    </div>
-                                    <div id="collapse-year-{{ year }}" class="collapse">
-                                        <div class="card-body p-3">
-                                            {% if events_in_year %}
-                                                <div class="accordion" id="accordion-events-left-{{ year }}">
-                                                    {% for event in events_in_year %}
-                                                        <div class="accordion-item border-0 mb-1">
-                                                            <h2 class="accordion-header">
-                                                                <button class="accordion-button collapsed bg-light rounded" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-event-{{ event.id }}">
-                                                                    {{ event.title }}
-                                                                </button>
-                                                            </h2>
-                                                            <div id="collapse-event-{{ event.id }}" class="accordion-collapse collapse" data-bs-parent="#accordion-events-left-{{ year }}">
-                                                                <div class="accordion-body border border-top-0 rounded-bottom">
-                                                                    <p class="mb-1 text-muted"><strong>{{ event.company }}</strong></p>
-                                                                    <small class="text-muted">{{ event.start_date|date:"F Y" }} – {% if event.end_date %}{{ event.end_date|date:"F Y" }}{% else %}Present{% endif %}</small>
-                                                                    {% if event.description %}<p class="mt-2 mb-0">{{ event.description|linebreaksbr }}</p>{% endif %}
-                                                                    {% if event.event_image %}<img src="{{ event.event_image.url }}" class="img-fluid rounded my-2" alt="Image for {{ event.title }}">{% endif %}
-                                                                    {% if event.video_url %}<div class="ratio ratio-16x9 my-2"><iframe src="{{ event.video_url|embed_youtube_url }}" title="{{ event.title }} video" allowfullscreen></iframe></div>{% endif %}
-                                                                </div>
-                                                            </div>
+                    <div class="timeline-block">
+                        <!-- Timeline dot with year -->
+                        <div class="timeline-dot" onclick="toggleYear('{{ year }}')" {% if not events_in_year %}style="cursor: not-allowed; opacity: 0.6;"{% endif %}>
+                            {{ year }}
+                        </div>
+                        
+                        <!-- Hidden content that expands when dot is clicked -->
+                        <div class="timeline-content" id="content-{{ year }}">
+                            <div class="card border-0">
+                                <div class="card-body p-3">
+                                    {% if events_in_year %}
+                                        <div class="accordion" id="accordion-events-{{ year }}">
+                                            {% for event in events_in_year %}
+                                                <div class="accordion-item border-0 mb-1">
+                                                    <h2 class="accordion-header">
+                                                        <button class="accordion-button collapsed bg-light rounded" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-event-{{ event.id }}">
+                                                            {{ event.title }}
+                                                        </button>
+                                                    </h2>
+                                                    <div id="collapse-event-{{ event.id }}" class="accordion-collapse collapse" data-bs-parent="#accordion-events-{{ year }}">
+                                                        <div class="accordion-body border border-top-0 rounded-bottom">
+                                                            <p class="mb-1 text-muted"><strong>{{ event.company }}</strong></p>
+                                                            <small class="text-muted">{{ event.start_date|date:"F Y" }} – {% if event.end_date %}{{ event.end_date|date:"F Y" }}{% else %}Present{% endif %}</small>
+                                                            {% if event.description %}<p class="mt-2 mb-0">{{ event.description|linebreaksbr }}</p>{% endif %}
+                                                            {% if event.event_image %}<img src="{{ event.event_image.url }}" class="img-fluid rounded my-2" alt="Image for {{ event.title }}">{% endif %}
+                                                            {% if event.video_url %}<div class="ratio ratio-16x9 my-2"><iframe src="{{ event.video_url|embed_youtube_url }}" title="{{ event.title }} video" allowfullscreen></iframe></div>{% endif %}
                                                         </div>
-                                                    {% endfor %}
+                                                    </div>
                                                 </div>
-                                            {% else %}
-                                                <p class="text-muted p-2">No events recorded for this year.</p>
-                                            {% endif %}
+                                            {% endfor %}
                                         </div>
-                                    </div>
+                                    {% else %}
+                                        <p class="text-muted p-2">No events recorded for this year.</p>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
-                    {% else %}
-                        <!-- BLOCK FOR ODD-NUMBERED ITEMS (RIGHT SIDE) -->
-                        <div class="timeline-block timeline-block-right">
-                            <div class="timeline-dot"></div>
-                            <div class="timeline-content">
-                                <div class="card border-0">
-                                    <div class="card-header bg-transparent border-0 p-3">
-                                        <button class="btn btn-link text-decoration-none w-100 text-start fs-5 fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-year-{{ year }}" {% if not events_in_year %}disabled{% endif %}>
-                                            {{ year }}
-                                        </button>
-                                    </div>
-                                    <div id="collapse-year-{{ year }}" class="collapse">
-                                        <div class="card-body p-3">
-                                            {% if events_in_year %}
-                                                <div class="accordion" id="accordion-events-right-{{ year }}">
-                                                    {% for event in events_in_year %}
-                                                        <div class="accordion-item border-0 mb-1">
-                                                            <h2 class="accordion-header">
-                                                                <button class="accordion-button collapsed bg-light rounded" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-event-{{ event.id }}">
-                                                                    {{ event.title }}
-                                                                </button>
-                                                            </h2>
-                                                            <div id="collapse-event-{{ event.id }}" class="accordion-collapse collapse" data-bs-parent="#accordion-events-right-{{ year }}">
-                                                                <div class="accordion-body border border-top-0 rounded-bottom">
-                                                                    <p class="mb-1 text-muted"><strong>{{ event.company }}</strong></p>
-                                                                    <small class="text-muted">{{ event.start_date|date:"F Y" }} – {% if event.end_date %}{{ event.end_date|date:"F Y" }}{% else %}Present{% endif %}</small>
-                                                                    {% if event.description %}<p class="mt-2 mb-0">{{ event.description|linebreaksbr }}</p>{% endif %}
-                                                                    {% if event.event_image %}<img src="{{ event.event_image.url }}" class="img-fluid rounded my-2" alt="Image for {{ event.title }}">{% endif %}
-                                                                    {% if event.video_url %}<div class="ratio ratio-16x9 my-2"><iframe src="{{ event.video_url|embed_youtube_url }}" title="{{ event.title }} video" allowfullscreen></iframe></div>{% endif %}
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    {% endfor %}
-                                                </div>
-                                            {% else %}
-                                                <p class="text-muted p-2">No events recorded for this year.</p>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    {% endif %}
+                    </div>
                 
                 {% endwith %}
             {% endfor %}
         </div>
+
+        <!-- JavaScript for toggle functionality -->
+        <script>
+            function toggleYear(year) {
+                const content = document.getElementById('content-' + year);
+                const isVisible = content.classList.contains('show');
+                
+                // Close all other open contents
+                document.querySelectorAll('.timeline-content.show').forEach(el => {
+                    el.classList.remove('show');
+                });
+                
+                // Toggle current content
+                if (!isVisible) {
+                    content.classList.add('show');
+                }
+            }
+        </script>
+
     {% else %}
         <!-- Fallback message for when there are no events -->
         <div class="card my-4 text-center"><div class="card-body p-5">

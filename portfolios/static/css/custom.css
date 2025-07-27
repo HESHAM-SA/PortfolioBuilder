@@ -9,128 +9,115 @@ body {
 
 /* The main container that enables the Grid layout */
 .timeline-container-centered {
-    display: grid;
-    /* A 3-column grid: left content, the line, right content */
-    grid-template-columns: 1fr 3px 1fr;
-    gap: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    padding: 2rem 0;
 }
 
-/* The vertical line in the middle */
+/* The vertical line in the middle - UPDATED to connect all nodes */
 .timeline-container-centered::before {
     content: '';
-    grid-column: 2; /* Place the line in the second grid column */
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
     width: 3px;
     background-color: #dee2e6;
     border-radius: 3px;
+    transform: translateX(-50%);
+    z-index: 0; /* Behind the dots */
 }
 
 /* A container for each year's block (dot + content) */
 .timeline-block {
-    /* Make each block a grid item that spans all 3 columns */
-    grid-column: 1 / 4;
-    display: grid;
-    grid-template-columns: 1fr 3px 1fr;
-    gap: 20px;
     position: relative;
-    /* FIX: Add consistent margin for even spacing */
-    margin-bottom: 4rem;
+    margin-bottom: 3rem;
+    width: 100%;
+    max-width: 800px;
 }
 
-/* The clickable dot on the timeline */
+/* The clickable dot on the timeline - NOW CONTAINS YEAR TEXT */
 .timeline-dot {
-    grid-column: 2; /* Place the dot in the middle column */
-    width: 21px;
-    height: 21px;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 60px;
     background-color: #fff;
     border: 3px solid #667eea;
     border-radius: 50%;
-    /* FIX: Remove margin-top and use absolute positioning for consistent placement */
-    position: absolute;
-    top: 20px;
-    transform: translateX(-50%);
-    z-index: 1; /* Appear on top of the line */
+    z-index: 2;
+    
+    /* Center the year text inside the dot */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 14px;
+    color: #667eea;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 1rem;
 }
 
-/* The content bubble for an event year */
+/* Hover effect for the year dot */
+.timeline-dot:hover {
+    background-color: #667eea;
+    color: #fff;
+    transform: translateX(-50%) scale(1.1);
+}
+
+/* The content bubble for an event year - HIDDEN BY DEFAULT */
 .timeline-content {
     position: relative;
     border-radius: .5rem;
     background-color: #fff;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    /* FIX: Add minimum height to normalize block sizes */
-    min-height: 80px;
+    margin: 0 2rem;
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.4s ease;
+    transform: translateY(-20px);
 }
 
-/* --- Alternating Logic --- */
-
-/* Place content for ODD numbered items on the RIGHT */
-.timeline-block-right .timeline-content {
-    grid-column: 3;
+/* Show content when expanded */
+.timeline-content.show {
+    opacity: 1;
+    max-height: 1000px;
+    transform: translateY(0);
 }
 
-/* Place content for EVEN numbered items on the LEFT */
+/* Remove alternating logic - content is always centered */
+.timeline-block-right .timeline-content,
 .timeline-block-left .timeline-content {
-    grid-column: 1;
+    margin: 0 2rem;
 }
 
-/* The little triangle pointer using a pseudo-element */
+/* Remove triangle pointers since content is centered */
 .timeline-content::before {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 0;
-    border-style: solid;
-    top: 20px;
-}
-
-/* Pointer for RIGHT-side content (points left) */
-.timeline-block-right .timeline-content::before {
-    right: 100%;
-    border-width: 8px 10px 8px 0;
-    border-color: transparent #fff transparent transparent;
-}
-
-/* Pointer for LEFT-side content (points right) */
-.timeline-block-left .timeline-content::before {
-    left: 100%;
-    border-width: 8px 0 8px 10px;
-    border-color: transparent transparent transparent #fff;
+    display: none;
 }
 
 /* --- Responsive Design for Mobile --- */
 @media (max-width: 768px) {
-    /* Change to a 2-column layout for mobile */
     .timeline-container-centered {
-        grid-template-columns: 50px 1fr;
-        gap: 10px;
+        padding: 1rem 0;
     }
 
-    /* Move the line and dot to the first column */
-    .timeline-container-centered::before,
-    .timeline-block {
-        grid-template-columns: 50px 1fr;
-    }
-    
     .timeline-dot {
-        grid-column: 1;
-        position: relative;
-        left: auto;
-        transform: none;
-        justify-self: center; /* Center the dot in its column */
-        top: 20px;
+        width: 50px;
+        height: 50px;
+        font-size: 12px;
     }
 
-    /* Force ALL content blocks to the right side (second column) */
-    .timeline-block-right .timeline-content,
-    .timeline-block-left .timeline-content {
-        grid-column: 2;
+    .timeline-content {
+        margin: 0 1rem;
     }
-    
-    /* Make all pointers point left */
-    .timeline-block-left .timeline-content::before {
-        right: 100%;
-        left: auto;
-        border-width: 8px 10px 8px 0;
-        border-color: transparent #fff transparent transparent;
+
+    .timeline-block {
+        margin-bottom: 2rem;
     }
 }
