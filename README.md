@@ -15,6 +15,31 @@ A frictionless, no-authentication timeline portfolio generator built with Django
 
 ---
 
+## 🎯 User Stories
+
+This section outlines the project's features from the perspective of its users.
+
+### As a Portfolio Creator...
+
+*   **I want** to start building my portfolio instantly from the landing page just by entering my name and title, **so that** I can bypass a tedious signup process.
+*   **I want** to edit my profile to add a detailed bio, contact email, and a link to my LinkedIn profile, **so that** I can present a complete and professional identity.
+*   **I want** to upload a professional profile picture, **so that** my portfolio feels personalized and recruiters can put a face to my name.
+*   **I want** to add individual events (like work experience, education, or projects) to my timeline, **so that** I can build a comprehensive history of my career.
+*   **I want** to attach images and embed YouTube videos to my timeline events, **so that** I can provide visual proof of my work and create a richer portfolio.
+*   **I want** to easily edit and delete existing timeline events from my dashboard, **so that** I can keep my career history accurate and up-to-date.
+*   **I want** to use my secret dashboard link to edit my portfolio at a later time, **so that** I can manage my content without the hassle of remembering a password.
+*   **I want** to receive a unique, public, and shareable URL for my portfolio, **so that** I can easily include it in my resume and distribute it to potential employers.
+
+### As a Public Visitor (e.g., a Recruiter)...
+
+*   **I want** to see the creator's profile picture used as a personalized background, **so that** the page feels unique and visually impressive.
+*   **I want** to see a clean, centered timeline with years clearly marked in nodes, **so that** I can quickly grasp the overall span of the person's career.
+*   **I want** to first click a year to see a summary of event titles, and then click a specific title to see its full details, **so that** I can quickly scan for key achievements before diving deeper.
+*   **I want** the portfolio to be fully responsive and easy to read on any device, **so that** I can review a candidate's profile conveniently.
+*   **I want** to easily find links to the creator's email and professional profiles, **so that** I can take the next step and contact them if I'm interested.
+
+---
+
 ## 🛠️ Technology Stack
 
 *   **Backend:** Django 5, Python 3
@@ -84,15 +109,15 @@ This diagram shows the relationship between the `Portfolio` and `TimelineEvent` 
 *   **[View UML Class Diagram (PDF)](/assets/pdfs/UML%20Digram.pdf)**
 *   ![UML Class Diagram](/assets/images/UML%20Digram-1.jpg)
 
-### User Story & Sequence Diagrams
+### Sequence Diagrams
 
-These documents outline the intended user flow and interactions within the system.
+These documents outline the user flow for key interactions within the system.
 
-1.  **[View User Story Flow (PDF)](/assets/pdfs/1.%20Sequence%20Diagram%20Create%20a%20New%20Portfolio.pdf)**
-*   ![View User Story Flow](/assets/images/1.%20Sequence%20Diagram%20Create%20a%20New%20Portfolio-1.jpg)
+1.  **[Create a New Portfolio (PDF)](/assets/pdfs/1.%20Sequence%20Diagram%20Create%20a%20New%20Portfolio.pdf)**
+*   ![Create a New Portfolio Sequence Diagram](/assets/images/1.%20Sequence%20Diagram%20Create%20a%20New%20Portfolio-1.jpg)
 
-2.  **[View Sequence Diagram (PDF)](/assets/pdfs/2.%20Sequence%20Diagram%20Add%20a%20Timeline%20Event%20with%20an%20Image.pdf)**
-*   ![View Sequence Diagram](/assets/images/2.%20Sequence%20Diagram%20Add%20a%20Timeline%20Event%20with%20an%20Image-1.jpg)
+2.  **[Add a Timeline Event with an Image (PDF)](/assets/pdfs/2.%20Sequence%20Diagram%20Add%20a%20Timeline%20Event%20with%20an%20Image.pdf)**
+*   ![Add an Event Sequence Diagram](/assets/images/2.%20Sequence%20Diagram%20Add%20a%20Timeline%20Event%20with%20an%20Image-1.jpg)
 
 
 ### Page Wireframes
