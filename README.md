@@ -82,7 +82,6 @@ The application will now be running at `http://127.0.0.1:8000/`.
 This diagram shows the relationship between the `Portfolio` and `TimelineEvent` models in the database.
 
 *   **[View UML Class Diagram (PDF)](/assets/pdfs/UML%20Digram.pdf)**
-    *(Note: For a direct view, convert the PDF to a PNG or JPG and use the image tag below.)*
 *   ![UML Class Diagram](/assets/images/UML%20Digram-1.jpg)
 
 ### User Story & Sequence Diagrams
