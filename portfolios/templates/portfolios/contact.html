@@ -1,13 +1,20 @@
+{# contact.html #}
 {% extends "portfolios/base.html" %}
 
 {% block content %}
-<div class="card p-4 p-md-5 shadow-sm">
-    <h1 class="text-center mb-4">Contact Us</h1>
-    <p class="lead text-center">
-        For questions, feedback, or support, please reach out via email.
-    </p>
-    <div class="text-center fs-4 mt-3">
-        <a href="mailto:support@portfoliobuilder.app">support@portfoliobuilder.app</a>
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card-form p-4 p-md-5 text-center">
+            <h1 class="mb-4">Contact Us</h1>
+            <p class="lead text-muted">
+                For questions, feedback, or support, please reach out via email.
+            </p>
+            <div class="fs-4 mt-4">
+                <a href="mailto:support@portfoliobuilder.app" class="btn btn-primary btn-lg">
+                    <i class="fas fa-envelope me-2"></i> support@portfoliobuilder.app
+                </a>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}

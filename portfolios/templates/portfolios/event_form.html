@@ -1,35 +1,36 @@
 {% extends "portfolios/base.html" %}
+{% load widget_tweaks %}
 
 {% block content %}
-<div class="card p-4 p-md-5 shadow-sm">
-    {% if is_editing %}
-        <h2 class="mb-4">✏️ Edit Timeline Event</h2>
-    {% else %}
-        <h2 class="mb-4">📅 Add a New Timeline Event</h2>
-    {% endif %}    
-    <form method="POST" enctype="multipart/form-data" novalidate>
-        {% csrf_token %}
-        
-        <!-- Render each field with Bootstrap classes -->
-        {% for field in form %}
-            <div class="mb-3">
-                {{ field.label_tag }}
-                {{ field }}
-                {% if field.help_text %}
-                    <div class="form-text">{{ field.help_text }}</div>
-                {% endif %}
-                {% if field.errors %}
-                    <div class="invalid-feedback d-block">
-                        {{ field.errors.as_text }}
-                    </div>
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card-form p-4 p-md-5">
+            <div class="text-center mb-4">
+                {% if is_editing %}
+                    <h2 class="mb-2">✏️ Edit Timeline Event</h2>
+                {% else %}
+                    <h2 class="mb-2">📅 Add New Timeline Event</h2>
                 {% endif %}
             </div>
-        {% endfor %}
-        
-        <div class="d-flex justify-content-end mt-4">
-            <a href="{% url 'portfolios:dashboard' slug=portfolio.slug %}" class="btn btn-secondary me-2">Cancel</a>
-            <button type="submit" class="btn btn-primary">Save Event</button>
+            
+            <form method="POST" enctype="multipart/form-data" novalidate>
+                {% csrf_token %}
+
+                {% for field in form %}
+                <div class="form-floating mb-3">
+                    {% render_field field class="form-control" placeholder=field.label %}
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {% if field.help_text %}<div class="form-text mt-1">{{ field.help_text }}</div>{% endif %}
+                    {% for error in field.errors %}<div class="invalid-feedback d-block">{{ error }}</div>{% endfor %}
+                </div>
+                {% endfor %}
+                
+                <div class="d-flex justify-content-end gap-2 mt-4">
+                    <a href="{% url 'portfolios:dashboard' slug=portfolio.slug %}" class="btn btn-secondary">Cancel</a>
+                    <button type="submit" class="btn btn-primary">Save Event</button>
+                </div>
+            </form>
         </div>
-    </form>
+    </div>
 </div>
 {% endblock %}

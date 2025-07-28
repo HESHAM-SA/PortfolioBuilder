@@ -1,16 +1,21 @@
+{# about.html #}
 {% extends "portfolios/base.html" %}
 
 {% block content %}
-<div class="card p-4 p-md-5 shadow-sm">
-    <h1 class="text-center mb-4">About Portfolio Builder</h1>
-    <p class="lead">
-        This application allows professionals to create a clean, beautiful, and shareable timeline of their career achievements without the hassle of signing up for an account.
-    </p>
-    <p>
-        Our goal is to provide a frictionless experience. Simply enter your name and title, and you're ready to start building. Your dashboard is accessible via a unique, book-markable link tied to your browser session.
-    </p>
-    <div class="text-center mt-4">
-        <a href="{% url 'portfolios:landing' %}" class="btn btn-primary">Start Building Now</a>
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card-form p-4 p-md-5">
+            <h1 class="text-center mb-4">About Portfolio Builder</h1>
+            <p class="lead">
+                This application allows professionals to create a clean, beautiful, and shareable timeline of their career achievements without the hassle of signing up for an account.
+            </p>
+            <p>
+                Our goal is to provide a frictionless experience. Simply enter your name and title, and you're ready to start building. Your dashboard is accessible via a unique, bookmarkable link.
+            </p>
+            <div class="text-center mt-4">
+                <a href="{% url 'portfolios:landing' %}" class="btn btn-primary btn-lg">Start Building Now →</a>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}

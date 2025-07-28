@@ -15,7 +15,7 @@ class TimelineEventForm(forms.ModelForm):
             'event_image',
             'video_url',
             'start_date', 
-            'end_date'
+            'end_date',
         ]
         
         # Add widgets to make the form look better with Bootstrap
@@ -41,7 +41,7 @@ class TimelineEventForm(forms.ModelForm):
 class PortfolioEditForm(forms.ModelForm):
     class Meta:
         model = Portfolio
-        fields = ['full_name', 'title', 'bio', 'profile_image', 'email', 'linkedin_url']
+        fields = ['full_name', 'title', 'bio', 'profile_image', 'email', 'linkedin_url', 'background_image']
         widgets = {
             'full_name': forms.TextInput(attrs={'class': 'form-control'}),
             'title': forms.TextInput(attrs={'class': 'form-control'}),
@@ -50,3 +50,16 @@ class PortfolioEditForm(forms.ModelForm):
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
             'linkedin_url': forms.URLInput(attrs={'class': 'form-control'}),
         }
+
+def __init__(self, *args, **kwargs):
+    super().__init__(*args, **kwargs)
+    for field_name, field in self.fields.items():
+        field.widget.attrs.update({
+            'class': 'form-control',
+            'placeholder': field.label
+        })
+    # Special handling for file inputs to not show a giant placeholder
+    if 'profile_image' in self.fields:
+        self.fields['profile_image'].widget.attrs.pop('placeholder', None)
+    if 'background_image' in self.fields:
+        self.fields['background_image'].widget.attrs.pop('placeholder', None)

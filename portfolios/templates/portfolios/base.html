@@ -1,29 +1,177 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio Builder</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>{% block title %}Portfolio Builder{% endblock %}</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+
+    <meta name="description" content="{% block meta_description %}Build and share your professional career timeline. No signup required.{% endblock %}">
+    <meta name="keywords" content="{% block meta_keywords %}portfolio, career, timeline, resume, professional, developer, designer{% endblock %}">
+
+    <link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+    <link rel="icon" href="{% static 'images/favicon.svg' %}" type="image/svg+xml">
+
     {% block head_extra %}{% endblock %}
 </head>
 <body>
-    <main class="container my-5">
-        {% block content %}
-         
-        {% endblock %}
-
-        <footer class="mt-5 text-center text-white-50">
-            <p>
-                <a href="{% url 'portfolios:about' %}" class="text-white">About</a> | 
-                <a href="{% url 'portfolios:contact' %}" class="text-white">Contact</a>
-            </p>
-            <p>© {% now "Y" %} Portfolio Builder. All rights reserved.</p>
-        </footer>
-    </main>
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'portfolios:landing' %}">
+                <i class="fas fa-rocket"></i> Portfolio Builder
+            </a>
+            <div class="ms-auto d-flex align-items-center">
+                <a class="nav-link me-3" href="{% url 'portfolios:about' %}">About</a>
+                <a class="nav-link me-3" href="{% url 'portfolios:contact' %}">Contact</a>
+                <span id="theme-switcher" class="nav-link">
+                    <i class="fas fa-moon"></i>
+                </span>
+            </div>
+        </div>
+    </nav>
     
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <main class="main-content container">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="mt-auto">
+        <p>© {% now "Y" %} Portfolio Builder. All Rights Reserved. Made with <i class="fas fa-heart text-danger"></i>.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Theme switcher functionality
+            const themeSwitcher = document.getElementById('theme-switcher');
+            if (themeSwitcher) {
+                // Get theme from cookie or default to light
+                const theme = getCookie('theme') || 'light';
+                document.documentElement.setAttribute('data-bs-theme', theme);
+                updateThemeIcon(theme);
+
+                themeSwitcher.addEventListener('click', function() {
+                    const currentTheme = document.documentElement.getAttribute('data-bs-theme');
+                    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                    
+                    document.documentElement.setAttribute('data-bs-theme', newTheme);
+                    setCookie('theme', newTheme, 365);
+                    updateThemeIcon(newTheme);
+                });
+            }
+
+            // Particle animation for public portfolio
+            if (document.getElementById('particles')) {
+                createParticles();
+            }
+
+            // Scroll reveal animation
+            const reveals = document.querySelectorAll('.reveal');
+            if (reveals.length > 0) {
+                revealOnScroll();
+                window.addEventListener('scroll', revealOnScroll, { passive: true });
+            }
+
+            // Timeline click functionality
+            const timelineDots = document.querySelectorAll('.timeline-dot');
+            timelineDots.forEach(function(dot) {
+                if (dot.getAttribute('data-has-content') === 'true') {
+                    dot.addEventListener('click', function() {
+                        const year = this.getAttribute('data-year');
+                        const content = document.getElementById('content-' + year);
+                        
+                        // Toggle content visibility
+                        if (content.classList.contains('show')) {
+                            content.classList.remove('show');
+                            this.classList.remove('active');
+                        } else {
+                            // Hide all other open content
+                            document.querySelectorAll('.timeline-content.show').forEach(function(openContent) {
+                                openContent.classList.remove('show');
+                            });
+                            document.querySelectorAll('.timeline-dot.active').forEach(function(activeDot) {
+                                activeDot.classList.remove('active');
+                            });
+                            
+                            // Show clicked content
+                            content.classList.add('show');
+                            this.classList.add('active');
+                        }
+                    });
+                }
+            });
+        });
+
+        // Cookie helper functions
+        function setCookie(name, value, days) {
+            const expires = new Date();
+            expires.setTime(expires.getTime() + (days * 24 * 60 * 60 * 1000));
+            document.cookie = name + '=' + value + ';expires=' + expires.toUTCString() + ';path=/';
+        }
+
+        function getCookie(name) {
+            const nameEQ = name + '=';
+            const ca = document.cookie.split(';');
+            for (let i = 0; i < ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+                if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+            }
+            return null;
+        }
+
+        function updateThemeIcon(theme) {
+            const icon = document.querySelector('#theme-switcher i');
+            if (icon) {
+                if (theme === 'dark') {
+                    icon.classList.remove('fa-moon');
+                    icon.classList.add('fa-sun');
+                } else {
+                    icon.classList.remove('fa-sun');
+                    icon.classList.add('fa-moon');
+                }
+            }
+        }
+
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            if (!particlesContainer) return;
+            
+            const particleCount = 25;
+            const fragment = document.createDocumentFragment();
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 8 + 's';
+                particle.style.animationDuration = (Math.random() * 5 + 5) + 's';
+                fragment.appendChild(particle);
+            }
+            particlesContainer.appendChild(fragment);
+        }
+
+        function revealOnScroll() {
+            const reveals = document.querySelectorAll('.reveal');
+            const triggerBottom = window.innerHeight * 0.85;
+
+            reveals.forEach(function(element) {
+                const elementTop = element.getBoundingClientRect().top;
+                if (elementTop < triggerBottom) {
+                    element.classList.add('active');
+                }
+            });
+        }
+    </script>
+
+    {% block scripts %}{% endblock %}
 </body>
 </html>

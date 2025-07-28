@@ -1,123 +1,168 @@
 {% extends "portfolios/base.html" %}
-{% load portfolio_tags %}
+{% load static portfolio_tags %}
+
 {% block head_extra %}
-    {% if portfolio.profile_image %}
-        <style>
-            body {
-                /* Set the background image to the portfolio's profile image URL */
-                background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url("{{ portfolio.profile_image.url }}");
-                
-                /* Ensure the image covers the entire background */
-                background-size: cover;
-                
-                /* Center the image */
-                background-position: center center;
-                
-                /* Fix the image in place so content scrolls over it */
-                background-attachment: fixed;
-                
-                /* Prevent the image from repeating */
-                background-repeat: no-repeat;
-            }
-        </style>
+    {% if portfolio.background_image %}
+    <style>
+        body {
+            background-image:
+                linear-gradient(135deg, rgba(204, 229, 18, 0.8) 0%, rgba(118, 75, 162, 0.85) 100%),
+                url("{{ portfolio.background_image.url }}");
+            background-size: cover;
+            background-position: center center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+        }
+
+        [data-bs-theme="dark"] body {
+            background-image:
+                linear-gradient(135deg, rgba(30, 41, 59, 0.85) 0%, rgba(49, 46, 129, 0.9) 100%),
+                url("{{ portfolio.background_image.url }}");
+            background-size: cover;
+            background-position: center center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+        }
+    </style>
     {% endif %}
-{% endblock %}
+{% endblock head_extra %}
 
 {% block content %}
-<div class="card p-4 p-md-5 shadow-sm mb-5">
-    <div class="text-center">
-        {% if portfolio.profile_image %}
-            <img src="{{ portfolio.profile_image.url }}" alt="{{ portfolio.full_name }}" class="img-fluid rounded-circle mb-4" style="width: 150px; height: 150px; object-fit: cover;">
-        {% endif %}
-        <h1 class="display-5 fw-bold">{{ portfolio.full_name }}</h1>
-        <p class="lead text-muted">{{ portfolio.title }}</p>
-        {% if portfolio.bio %}<p class="my-4 mx-auto" style="max-width: 600px;">{{ portfolio.bio }}</p>{% endif %}
-        <div class="d-flex justify-content-center gap-2 mb-4">
-            {% if portfolio.email %}<a href="mailto:{{ portfolio.email }}" class="btn btn-outline-primary">📧 Email Me</a>{% endif %}
-            {% if portfolio.linkedin_url %}<a href="{{ portfolio.linkedin_url }}" target="_blank" class="btn btn-outline-primary">🔗 LinkedIn</a>{% endif %}
+<div class="particles" id="particles"></div>
+
+<section class="hero-section">
+    <div class="container">
+        <div class="row align-items-center flex-column gy-5">
+            <div class="col-lg-5 text-center">
+                <div class="reveal">
+                    {% if portfolio.profile_image %}
+                        <img src="{{ portfolio.profile_image.url }}" alt="{{ portfolio.full_name }}" class="profile-image">
+                    {% else %}
+                        <img src="https://i.pravatar.cc/250?u={{ portfolio.slug }}" alt="Default Profile Image" class="profile-image">
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-lg-7 text-center text-lg-start">
+                <div class="hero-text reveal d-flex flex-column align-items-center">
+                    <h1 class="display-1 mb-4 text-uppercase">{{ portfolio.full_name }}</h1>
+                    <p class="lead mb-2">{{ portfolio.title|default:"Professional" }}</p>
+                    {% if portfolio.bio %}
+                        <p class="mb-4" style="max-width: 600px; opacity: 0.9;">{{ portfolio.bio }}</p>
+                    {% endif %}
+                    
+                    <div class="d-flex flex-wrap gap-3 mb-5 hero-buttons">
+                        {% if portfolio.email %}
+                            <a href="mailto:{{ portfolio.email }}" class="btn btn-primary"><i class="fas fa-envelope me-2"></i>Hire Me</a>
+                        {% endif %}
+                        {% if portfolio.linkedin_url %}
+                            <a href="{{ portfolio.linkedin_url }}" target="_blank" class="btn social-button"><i class="fab fa-linkedin me-2"></i>LinkedIn</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
         </div>
-        <a href="{% url 'portfolios:landing' %}" class="btn btn-sm btn-success">✨ Create Your Own Portfolio</a>
     </div>
-</div>
-<!-- Interactive Timeline Section -->
-<div class="mt-5">
-    <h2 class="text-center text-white mb-5">Career Timeline</h2>
+</section>
 
-    {% if all_years %}
-        <div class="timeline-container-centered">
-            
-            <!-- Loop through the complete list of years -->
-            {% for year in all_years %}
-                
-                <!-- Look up the events for this year -->
-                {% with events_in_year=grouped_events|get_item:year %}
+<section class="stats-section reveal my-5">
+    <div class="glass-card">
+        <div class="row text-center text-white gy-4">
+            <div class="col-md-3 col-6">
+                <div class="stat-item">
+                    <i class="fas fa-briefcase stat-icon"></i>
+                    <div class="stat-label"><strong>{{ portfolio.events.count|default:"10" }}+</strong> Experiences</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stat-item">
+                    <i class="fas fa-calendar-alt stat-icon"></i>
+                    <div class="stat-label"><strong>{{ portfolio.years_experience|default:"5" }}+</strong> Years of Exp.</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stat-item">
+                    <i class="fas fa-check-circle stat-icon"></i>
+                    <div class="stat-label"><strong>{{ portfolio.success_rate|default:"95" }}%</strong> Success Rate</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stat-item">
+                    <i class="fas fa-users stat-icon"></i>
+                    <div class="stat-label"><strong>100+</strong> Happy Clients</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
-                    <div class="timeline-block">
-                        <!-- Timeline dot with year -->
-                        <div class="timeline-dot" onclick="toggleYear('{{ year }}')" {% if not events_in_year %}style="cursor: not-allowed; opacity: 0.6;"{% endif %}>
-                            {{ year }}
-                        </div>
-                        
-                        <!-- Hidden content that expands when dot is clicked -->
+{% if all_years %}
+<section class="timeline-section">
+    <div class="section-title reveal">
+        <h2>Career Journey</h2>
+        <p class="lead">A chronological overview of my professional experiences and key achievements.</p>
+    </div>
+
+    <div class="timeline-container">
+        <div class="timeline-line"></div>
+        {% for year in all_years %}
+            {% with events_in_year=grouped_events|get_item:year %}
+                 <div class="timeline-item reveal">
+                    <div class="timeline-dot" data-year="{{ year }}" data-has-content="{% if events_in_year %}true{% else %}false{% endif %}">
+                        {{ year }}
+                    </div>
+                    {% if events_in_year %}
+                    <!-- ADDED: Wrapper for positioning -->
+                    <div class="timeline-content-wrapper">
                         <div class="timeline-content" id="content-{{ year }}">
-                            <div class="card border-0">
-                                <div class="card-body p-3">
-                                    {% if events_in_year %}
-                                        <div class="accordion" id="accordion-events-{{ year }}">
-                                            {% for event in events_in_year %}
-                                                <div class="accordion-item border-0 mb-1">
-                                                    <h2 class="accordion-header">
-                                                        <button class="accordion-button collapsed bg-light rounded" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-event-{{ event.id }}">
-                                                            {{ event.title }}
-                                                        </button>
-                                                    </h2>
-                                                    <div id="collapse-event-{{ event.id }}" class="accordion-collapse collapse" data-bs-parent="#accordion-events-{{ year }}">
-                                                        <div class="accordion-body border border-top-0 rounded-bottom">
-                                                            <p class="mb-1 text-muted"><strong>{{ event.company }}</strong></p>
-                                                            <small class="text-muted">{{ event.start_date|date:"F Y" }} – {% if event.end_date %}{{ event.end_date|date:"F Y" }}{% else %}Present{% endif %}</small>
-                                                            {% if event.description %}<p class="mt-2 mb-0">{{ event.description|linebreaksbr }}</p>{% endif %}
-                                                            {% if event.event_image %}<img src="{{ event.event_image.url }}" class="img-fluid rounded my-2" alt="Image for {{ event.title }}">{% endif %}
-                                                            {% if event.video_url %}<div class="ratio ratio-16x9 my-2"><iframe src="{{ event.video_url|embed_youtube_url }}" title="{{ event.title }} video" allowfullscreen></iframe></div>{% endif %}
-                                                        </div>
-                                                    </div>
+                            <div class="accordion" id="accordion-{{ year }}">
+                                {% for event in events_in_year %}
+                                <div class="accordion-item mb-3 border-0 rounded-3 overflow-hidden">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-event-{{ event.id }}">
+                                            {{ event.title }}
+                                        </button>
+                                    </h2>
+                                    <div id="collapse-event-{{ event.id }}" class="accordion-collapse collapse" data-bs-parent="#accordion-{{ year }}">
+                                        <div class="accordion-body">
+                                            <p class="mb-2"><strong>{{ event.company }}</strong></p>
+                                            <small class="text-muted d-block mb-3">{{ event.start_date|date:"F Y" }} – {% if event.end_date %}{{ event.end_date|date:"F Y" }}{% else %}Present{% endif %}</small>
+                                            {% if event.description %}<p>{{ event.description|linebreaksbr }}</p>{% endif %}
+                                            {% if event.video_url %}
+                                                <div class="ratio ratio-16x9 my-3">
+                                                    <iframe src="{{ event.video_url|embed_youtube_url }}" title="{{ event.title }} video" allowfullscreen></iframe>
                                                 </div>
-                                            {% endfor %}
+                                            {% endif %}
                                         </div>
-                                    {% else %}
-                                        <p class="text-muted p-2">No events recorded for this year.</p>
-                                    {% endif %}
+                                    </div>
                                 </div>
+                                {% endfor %}
                             </div>
                         </div>
                     </div>
-                
-                {% endwith %}
-            {% endfor %}
-        </div>
+                    {% endif %}
+                </div>
+            {% endwith %}
+        {% endfor %}
+    </div>
+</section>
+{% else %}
+<section class="py-5">
+    <div class="glass-card text-center reveal">
+        <i class="fas fa-hourglass-half fa-3x text-white mb-4"></i>
+        <h3 class="text-white mb-3">Timeline is Being Built</h3>
+        <p class="text-white opacity-75 mb-4">This portfolio is brand new! Check back soon to see the career journey unfold.</p>
+        <a href="{% url 'portfolios:landing' %}" class="btn btn-primary"><i class="fas fa-plus me-2"></i>Add Your First Experience</a>
+    </div>
+</section>
+{% endif %}
 
-        <!-- JavaScript for toggle functionality -->
-        <script>
-            function toggleYear(year) {
-                const content = document.getElementById('content-' + year);
-                const isVisible = content.classList.contains('show');
-                
-                // Close all other open contents
-                document.querySelectorAll('.timeline-content.show').forEach(el => {
-                    el.classList.remove('show');
-                });
-                
-                // Toggle current content
-                if (!isVisible) {
-                    content.classList.add('show');
-                }
-            }
-        </script>
-
-    {% else %}
-        <!-- Fallback message for when there are no events -->
-        <div class="card my-4 text-center"><div class="card-body p-5">
-            <p class="lead">This portfolio doesn't have any timeline events yet.</p>
-        </div></div>
-    {% endif %}
-</div>
+<section class="py-5 mt-5">
+    <div class="glass-card text-center text-white reveal">
+        <h3 class="mb-3">Ready to Collaborate?</h3>
+        <p class="opacity-75 mb-4">I'm actively seeking new challenges and projects. Let's create something amazing together.</p>
+        {% if portfolio.email %}
+            <a href="mailto:{{ portfolio.email }}" class="btn btn-primary btn-lg"><i class="fas fa-paper-plane me-2"></i>Get In Touch</a>
+        {% endif %}
+    </div>
+</section>
 {% endblock %}
