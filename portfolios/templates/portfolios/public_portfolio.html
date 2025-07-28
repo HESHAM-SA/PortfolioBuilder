@@ -42,22 +42,20 @@
                     {% endif %}
                 </div>
             </div>
-            <div class="col-lg-7 text-center text-lg-start">
-                <div class="hero-text reveal d-flex flex-column align-items-center">
-                    <h1 class="display-1 mb-4 text-uppercase">{{ portfolio.full_name }}</h1>
-                    <p class="lead mb-2">{{ portfolio.title|default:"Professional" }}</p>
-                    {% if portfolio.bio %}
-                        <p class="mb-4" style="max-width: 600px; opacity: 0.9;">{{ portfolio.bio }}</p>
+            <div class="hero-text reveal d-flex flex-column align-items-center">
+                <h1 class="display-1 mb-4 text-uppercase">{{ portfolio.full_name }}</h1>
+                <p class="lead mb-2">{{ portfolio.title|default:"Professional" }}</p>
+                {% if portfolio.bio %}
+                    <p class="mb-4" style="max-width: 600px; opacity: 0.9;">{{ portfolio.bio }}</p>
+                {% endif %}
+                
+                <div class="d-flex flex-wrap gap-3 mb-5 hero-buttons">
+                    {% if portfolio.email %}
+                        <a href="mailto:{{ portfolio.email }}" class="btn btn-primary"><i class="fas fa-envelope me-2"></i>Hire Me</a>
                     {% endif %}
-                    
-                    <div class="d-flex flex-wrap gap-3 mb-5 hero-buttons">
-                        {% if portfolio.email %}
-                            <a href="mailto:{{ portfolio.email }}" class="btn btn-primary"><i class="fas fa-envelope me-2"></i>Hire Me</a>
-                        {% endif %}
-                        {% if portfolio.linkedin_url %}
-                            <a href="{{ portfolio.linkedin_url }}" target="_blank" class="btn social-button"><i class="fab fa-linkedin me-2"></i>LinkedIn</a>
-                        {% endif %}
-                    </div>
+                    {% if portfolio.linkedin_url %}
+                        <a href="{{ portfolio.linkedin_url }}" target="_blank" class="btn social-button"><i class="fab fa-linkedin me-2"></i>LinkedIn</a>
+                    {% endif %}
                 </div>
             </div>
         </div>
