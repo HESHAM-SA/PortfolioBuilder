@@ -35,11 +35,9 @@
         <div class="row align-items-center flex-column gy-5">
             <div class="col-lg-5 text-center">
                 <div class="reveal">
-                    {% if portfolio.profile_image %}
-                        <img src="{{ portfolio.profile_image.url }}" alt="{{ portfolio.full_name }}" class="profile-image">
-                    {% else %}
-                        <img src="https://i.pravatar.cc/250?u={{ portfolio.slug }}" alt="Default Profile Image" class="profile-image">
-                    {% endif %}
+                    <img src="{{ portfolio.profile_image.url }}" 
+                        alt="{{ portfolio.full_name }}'s profile picture" 
+                        class="profile-image">
                 </div>
             </div>
             <div class="hero-text reveal d-flex flex-column align-items-center">

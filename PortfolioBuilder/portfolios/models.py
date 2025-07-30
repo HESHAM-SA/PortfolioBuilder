@@ -8,7 +8,7 @@ class Portfolio(models.Model):
     full_name = models.CharField(max_length=100)
     title = models.CharField(max_length=100)
     bio = models.TextField(blank=True)
-    profile_image = models.ImageField(upload_to='profile_pics/', blank=True, null=True)
+    profile_image = models.ImageField(upload_to='profile_pics/', blank=True, null=True, default='profile_pics/default_avatar.png')
     background_image = models.ImageField(upload_to='backgrounds/', blank=True, null=True,help_text="Optional. A high-resolution background image for your portfolio page.")
     email = models.EmailField(blank=True)
     linkedin_url = models.URLField(blank=True)
