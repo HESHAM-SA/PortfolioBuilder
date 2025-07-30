@@ -67,7 +67,7 @@ Follow these steps to get the project running on your local machine for developm
 
 1.  **Clone the repository:**
     ```bash
-    git clone https://your-repository-url.com/
+    git clone https://github.com/HESHAM-SA/PortfolioBuilder.git
     cd portfolio-builder-project
     ```
 
