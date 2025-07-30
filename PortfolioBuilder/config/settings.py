@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-_qj%yy&!@s+ktx&14t%)n^q0(x#ds#5+*jbbkd%8sn3hhebi2%'
-CSRF_TRUSTED_ORIGINS = ["https://portfoliobuilder-production.up.railway.app/", "http://127.0.0.1"]
+CSRF_TRUSTED_ORIGINS = ["https://portfoliobuilder-production.up.railway.app", "http://127.0.0.1"]
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
