@@ -9,7 +9,7 @@ A frictionless, no-authentication timeline portfolio generator built with Django
 
 </div>
 
-![Public Portfolio Wireframe](/PortfolioBuilder/assets/images/wireframe-public-portfolio.png)
+![Public Portfolio Wireframe](/PortfolioBuilder/assets/images/rea-land-page.png)
 
 ---
 
@@ -128,7 +128,7 @@ Visual blueprints for the application's key pages.
 
 | Landing Page | Portfolio Dashboard | Add/Edit Event Form |
 | :---: | :---: | :---: |
-| ![Landing Page Wireframe](/PortfolioBuilder/assets/images/wireframe-landing.png) | ![Dashboard Wireframe](/assets/images/wireframe-dashboard.png) | ![Add/Edit Event Wireframe](/PortfolioBuilder/assets/images/wireframe-event-form.png) |
+| ![Landing Page Wireframe](/PortfolioBuilder/assets/images/wireframe-landing.png) | ![Dashboard Wireframe](/PortfolioBuilder/assets/images/wireframe-dashboard.png) | ![Add/Edit Event Wireframe](/PortfolioBuilder/assets/images/wireframe-event-form.png) |
 
 | Edit Profile Form | Public Portfolio Page |
 | :---: | :---: |
